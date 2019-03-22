@@ -2,9 +2,30 @@
   font-size: 24px;
   font-weight: 300;
   font-family: Arial, sans-serif;
+  text-align: left;
+  border-bottom: 1px solid #ededed;
+  display: flex;
+  align-items: center;
 }
 
-.todoItem-complete {
+.todoItem p {
+  margin: 0;
+  padding: 15px;
+}
+
+.todoItem .check-box-empty {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  padding-left: 15px;
+  opacity: 0.3;
+}
+
+.todoItem .check-box {
+  opacity: 1;
+}
+
+.todoItem-complete p {
   text-decoration: line-through;
   opacity: 0.3;
 }

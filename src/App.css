@@ -1,33 +1,87 @@
 .App {
+  width: 550px;
+  margin: auto;
+  box-shadow: 10px 13px 56px -14px rgba(0,0,0,0.31);
+  position: relative;
+  margin-top: 150px;
+  background: white;
+}
+
+.App h1 {
+  color: rgba(175, 47, 47, 0.15);
+  font-size: 100px;
+  font-weight: 400;
+  position: absolute;
+  top: -200px;
+  width: 100%;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.addItem {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  border-bottom: 1px solid #ededed;
+  padding: 15px 15px 15px 0;
 }
 
-.App-link {
-  color: #61dafb;
+.addItem .down-arrow {
+  width: 15px;
+  height: 15px;
+  padding: 5px 5px 5px 20px;
+  opacity: 0.3;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.addItem .down-arrow-1 {
+  opacity: 1;
+}
+
+.addItem input {
+  margin-left: 12px;
+  border: none;
+  width: 100%;
+  height: 30px;
+  font-size: 24px;
+}
+
+.addItem input:focus {
+  outline: none;
+}
+.addItem input::placeholder {
+  opacity: 0.3;
+  font-style: italic;
+}
+
+.footer {
+  font-size: 14px;
+  opacity: 0.8;
+  padding: 10px 15px;
+  display: flex;
+}
+
+.footer .count-items-left {
+  padding-top: 7px;
+}
+
+.footer .filters {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+}
+
+.footer .filters li {
+  padding: 3px 7px;
+  margin: 3px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.footer .filters li:hover {
+  border-color: rgba(175, 47, 47, 0.1);
+}
+
+.footer .filters li.selected {
+  border-color: rgba(175, 47, 47, 0.2);
+  border-radius: 3px;
 }
