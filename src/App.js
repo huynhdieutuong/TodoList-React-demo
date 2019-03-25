@@ -12,6 +12,7 @@ class App extends Component {
       this.todoItems = [];
     }
     this.state = {
+      editing: false,
       newItem: '',
       currentFilter: 'all',
       todoItems: this.todoItems
@@ -56,6 +57,17 @@ class App extends Component {
           ...todoItems.slice(index + 1)
         ]
       });
+    }
+  }
+
+  // Edit Item
+  editItemClick(item) {
+    const { editing } = this.state;
+    return () => {
+      console.log('Edit function is building. Please come back later. Thanks!');
+      this.setState({
+        editing: !editing
+      })
     }
   }
 
@@ -134,7 +146,7 @@ class App extends Component {
 
   // Render
   render() {
-    const { todoItems, newItem, currentFilter } = this.state;
+    const { todoItems, newItem, currentFilter, editing } = this.state;
     const filterFalse = todoItems.filter(item => item.isComplete === false);
     const filterTrue = todoItems.filter(item => item.isComplete === true);
     return (
@@ -158,34 +170,38 @@ class App extends Component {
         {/* Show Items */}
         {
           currentFilter === 'all' && todoItems.length > 0 && todoItems.map(
-            (item, index) => 
+            (item, index) =>
             <TodoItem 
               key={index} 
               item={item}
               onClick={this.onItemClicked(item)}
-              deleteItemClick={this.deleteItemClick(item)}  
+              deleteItemClick={this.deleteItemClick(item)}
+              editItemClick={this.editItemClick(item)} 
+              editing={editing} 
             />
           )
-        }
+        } 
         {
           currentFilter === 'active' && filterFalse.length > 0 && filterFalse.map(
-            (item, index) => 
+            (item, index) =>
             <TodoItem 
               key={index} 
               item={item}
               onClick={this.onItemClicked(item)}
-              deleteItemClick={this.deleteItemClick(item)}  
+              deleteItemClick={this.deleteItemClick(item)}
+              editItemClick={this.editItemClick(item)}  
             />
           )
         }
         {
           currentFilter === 'completed' && filterTrue.length > 0 && filterTrue.map(
-            (item, index) => 
+            (item, index) =>
             <TodoItem 
               key={index} 
               item={item}
               onClick={this.onItemClicked(item)}
-              deleteItemClick={this.deleteItemClick(item)}  
+              deleteItemClick={this.deleteItemClick(item)}
+              editItemClick={this.editItemClick(item)}  
             />
           )
         }

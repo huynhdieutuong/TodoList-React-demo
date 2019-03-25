@@ -6,8 +6,10 @@ import checkBox from '../icons/check-box.svg';
 import deleteItem from '../icons/delete.svg';
 
 class TodoItem extends Component {
+  onChange() {
+  }
   render() {
-    const { item, onClick, deleteItemClick } = this.props;
+    const { item, onClick, deleteItemClick, editItemClick, editing } = this.props;
     let url = checkBoxEmpty;
     if(item.isComplete) {
       url = checkBox;
@@ -19,7 +21,9 @@ class TodoItem extends Component {
           className={classNames('check-box-empty', { 'check-box': url === checkBox })} 
           onClick={onClick} 
           alt="" />
-        <p>{item.title}</p>
+        { !editing && <p onDoubleClick={editItemClick}>{item.title}</p> }
+        { editing && <input onDoubleClick={editItemClick} value={item.title} onChange={() => this.onChange()}/>}
+        
         <img 
           className="delete-item" 
           src={deleteItem} 
