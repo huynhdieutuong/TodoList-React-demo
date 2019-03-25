@@ -12,7 +12,7 @@ class App extends Component {
       currentFilter: 'all',
       todoItems: [
         { title: 'Học React', isComplete: false },
-        { title: 'Làm pet projects', isComplete: false },
+        { title: 'Làm projects', isComplete: false },
         { title: 'Xin việc', isComplete: false }
       ]
     };
@@ -25,6 +25,7 @@ class App extends Component {
     this.completedItems = this.completedItems.bind(this);
   }
 
+  // Item Click
   onItemClicked(item) {
     const { todoItems } = this.state;
     const index = todoItems.indexOf(item);
@@ -39,6 +40,7 @@ class App extends Component {
     }
   }
 
+  // Add New Item
   addItem(event) {
     const { todoItems } = this.state;
     let text = event.target.value;
@@ -54,6 +56,7 @@ class App extends Component {
           { title: text, isComplete: false }
         ]
       });
+      localStorage.setItem('todoItems', JSON.stringify(todoItems));
     }
   };
 
@@ -66,14 +69,23 @@ class App extends Component {
 
   onAllFinished() {
     const { todoItems } = this.state;
-    const allFinished = todoItems.map(function(item) {
-      return { title: item.title, isComplete: !item.isComplete };
-    });
+    const filterFalse = todoItems.filter(item => item.isComplete === false);
+    let allFinished = [];
+    if(filterFalse.length === 0) {
+      allFinished = todoItems.map(function(item) {
+        return { title: item.title, isComplete: false };
+      });
+    } else {
+      allFinished = todoItems.map(function(item) {
+        return { title: item.title, isComplete: true };
+      });
+    }
     this.setState({
       todoItems: [...allFinished]
     })
   }
 
+  // Footer
   allItems() {
     const { todoItems } = this.state;
     this.setState({
@@ -100,12 +112,14 @@ class App extends Component {
     });
   }
 
+  // Render
   render() {
     const { todoItems, newItem, currentFilter } = this.state;
     const filterFalse = todoItems.filter(item => item.isComplete === false);
     return (
       <div className="App">
         <h1>todos</h1>
+        {/* Add New Item */}
         <div className="addItem">
           <img
             className={classNames('down-arrow', {'down-arrow-1': filterFalse.length === 0 })} 
@@ -119,6 +133,8 @@ class App extends Component {
             value={newItem}
             onChange={this.onChange}/>
         </div>
+
+        {/* Show Items */}
         {
           todoItems.length > 0 && todoItems.map(
             (item, index) => 
@@ -131,6 +147,8 @@ class App extends Component {
         {
           todoItems.length === 0 && 'Nothing here.'
         }
+
+        {/* Footer */}
         <div className="footer">
           <span className="count-items-left">{filterFalse.length} items left</span>
           <ul className="filters">
