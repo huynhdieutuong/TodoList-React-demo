@@ -7,22 +7,27 @@ import downArrow from './icons/down-arrow.svg';
 class App extends Component {
   constructor() {
     super();
+    this.todoItems = JSON.parse(localStorage.getItem('todoItems'));
+    if(!this.todoItems) {
+      this.todoItems = [];
+    }
     this.state = {
       newItem: '',
       currentFilter: 'all',
-      todoItems: [
-        { title: 'Học React', isComplete: false },
-        { title: 'Làm projects', isComplete: false },
-        { title: 'Xin việc', isComplete: false }
-      ]
+      todoItems: this.todoItems
     };
-    //this.onItemClicked = this.onItemClicked.bind(this);
+    
     this.addItem = this.addItem.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onAllFinished = this.onAllFinished.bind(this);
     this.allItems = this.allItems.bind(this);
     this.activeItems = this.activeItems.bind(this);
     this.completedItems = this.completedItems.bind(this);
+  }
+
+  componentDidUpdate() {
+    const { todoItems } = this.state;
+    localStorage.setItem('todoItems', JSON.stringify(todoItems));
   }
 
   // Item Click
@@ -34,6 +39,20 @@ class App extends Component {
         todoItems: [
           ...todoItems.slice(0, index),
           { ...item, isComplete: !item.isComplete },
+          ...todoItems.slice(index + 1)
+        ]
+      });
+    }
+  }
+
+  // Delete Item
+  deleteItemClick(item) {
+    const { todoItems } = this.state;
+    const index = todoItems.indexOf(item);
+    return () => {
+      this.setState({
+        todoItems: [
+          ...todoItems.slice(0, index),
           ...todoItems.slice(index + 1)
         ]
       });
@@ -56,7 +75,6 @@ class App extends Component {
           { title: text, isComplete: false }
         ]
       });
-      localStorage.setItem('todoItems', JSON.stringify(todoItems));
     }
   };
 
@@ -82,7 +100,7 @@ class App extends Component {
     }
     this.setState({
       todoItems: [...allFinished]
-    })
+    });
   }
 
   // Footer
@@ -95,27 +113,30 @@ class App extends Component {
   }
 
   activeItems() {
-    const { todoItems } = this.state;
-    const filterFalse = todoItems.filter(item => item.isComplete === false);
     this.setState({
       currentFilter: 'active',
-      todoItems: filterFalse
     });
   }
 
   completedItems() {
-    const { todoItems } = this.state;
-    const filterTrue = todoItems.filter(item => item.isComplete === true);
     this.setState({
       currentFilter: 'completed',
-      todoItems: filterTrue
     });
+  }
+
+  clearCompleted() {
+    const { todoItems } = this.state;
+    const filterFalse = todoItems.filter(item => item.isComplete === false);
+    this.setState({
+      todoItems: filterFalse
+    })
   }
 
   // Render
   render() {
     const { todoItems, newItem, currentFilter } = this.state;
     const filterFalse = todoItems.filter(item => item.isComplete === false);
+    const filterTrue = todoItems.filter(item => item.isComplete === true);
     return (
       <div className="App">
         <h1>todos</h1>
@@ -136,16 +157,37 @@ class App extends Component {
 
         {/* Show Items */}
         {
-          todoItems.length > 0 && todoItems.map(
+          currentFilter === 'all' && todoItems.length > 0 && todoItems.map(
             (item, index) => 
             <TodoItem 
               key={index} 
               item={item}
-              onClick={this.onItemClicked(item)}/>
+              onClick={this.onItemClicked(item)}
+              deleteItemClick={this.deleteItemClick(item)}  
+            />
           )
         }
         {
-          todoItems.length === 0 && 'Nothing here.'
+          currentFilter === 'active' && filterFalse.length > 0 && filterFalse.map(
+            (item, index) => 
+            <TodoItem 
+              key={index} 
+              item={item}
+              onClick={this.onItemClicked(item)}
+              deleteItemClick={this.deleteItemClick(item)}  
+            />
+          )
+        }
+        {
+          currentFilter === 'completed' && filterTrue.length > 0 && filterTrue.map(
+            (item, index) => 
+            <TodoItem 
+              key={index} 
+              item={item}
+              onClick={this.onItemClicked(item)}
+              deleteItemClick={this.deleteItemClick(item)}  
+            />
+          )
         }
 
         {/* Footer */}
@@ -162,6 +204,7 @@ class App extends Component {
               className= { classNames( { 'selected': currentFilter === 'completed' } ) }
               onClick={this.completedItems}>Completed</li>
           </ul>
+      { filterTrue.length > 0 && <span className='clear-completed' onClick={() => this.clearCompleted()}>Clear completed</span> }
         </div>
       </div>
     );

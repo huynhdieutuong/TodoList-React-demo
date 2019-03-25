@@ -69,6 +69,10 @@
   margin: 0;
 }
 
+.footer .filters {
+  flex-grow: 1;
+}
+
 .footer .filters li {
   padding: 3px 7px;
   margin: 3px;
@@ -84,4 +88,13 @@
 .footer .filters li.selected {
   border-color: rgba(175, 47, 47, 0.2);
   border-radius: 3px;
+}
+
+.footer .clear-completed {
+  cursor: pointer;
+  padding-top: 7px;
+}
+
+.footer .clear-completed:hover {
+  text-decoration: underline;
 }

@@ -3,10 +3,11 @@ import classNames from 'classnames';
 import './TodoItem.css';
 import checkBoxEmpty from '../icons/check-box-empty.svg';
 import checkBox from '../icons/check-box.svg';
+import deleteItem from '../icons/delete.svg';
 
 class TodoItem extends Component {
   render() {
-    const { item, onClick } = this.props;
+    const { item, onClick, deleteItemClick } = this.props;
     let url = checkBoxEmpty;
     if(item.isComplete) {
       url = checkBox;
@@ -19,6 +20,11 @@ class TodoItem extends Component {
           onClick={onClick} 
           alt="" />
         <p>{item.title}</p>
+        <img 
+          className="delete-item" 
+          src={deleteItem} 
+          onClick={deleteItemClick}
+          alt="" />
       </div>
     )
   }

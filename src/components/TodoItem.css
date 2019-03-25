@@ -11,6 +11,7 @@
 .todoItem p {
   margin: 0;
   padding: 15px;
+  flex-grow: 1;
 }
 
 .todoItem .check-box-empty {
@@ -28,4 +29,18 @@
 .todoItem-complete p {
   text-decoration: line-through;
   opacity: 0.3;
+}
+
+.todoItem .delete-item {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  padding-right: 30px;
+  opacity: 0;
+}
+.todoItem:hover .delete-item {
+  opacity: 0.6;
+}
+.todoItem .delete-item:hover {
+  opacity: 1;
 }
