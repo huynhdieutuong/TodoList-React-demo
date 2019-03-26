@@ -1,6 +1,6 @@
 # To Do List - React Demo
 
-Check this project in here: [TodoList] (https://github.com/facebook/create-react-app).
+Check this project in here: [TodoList] (https://2vm7or3kwj.codesandbox.io/).
 
 ## Function
 
